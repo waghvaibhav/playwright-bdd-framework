@@ -1,22 +1,49 @@
-# Node modules
+# Node
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json.*
+.pnpm-store/
 
-# Build output
+# Builds / compiled
 dist/
+out/
+*.tsbuildinfo
 
-# Test results
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Test outputs & artifacts
+reports/
+reports/**/*
 allure-results/
 allure-report/
-reports/
+playwright-report/
+test-results/
 *.zip
 *.webm
 *.mp4
 *.png
+*.jpg
+*.jpeg
 
-# Environment configs
-.env
-.env.local
+# Playwright videos/traces (if outside reports/)
+**/videos/
+**/traces/
 
-# IDE settings
-.vscode/
-.idea/
+# Coverage (if you add it later)
+coverage/
+lcov.info
+
+# Misc
+.tmp/
+.temp/
