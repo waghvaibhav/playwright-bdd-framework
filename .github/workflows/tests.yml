@@ -28,6 +28,7 @@ jobs:
         run: npm run test:smoke:qa
         env:
           ENV: qa
+          CI: true
 
       - name: Generate Allure HTML
         if: always()
