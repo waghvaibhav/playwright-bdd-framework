@@ -1,0 +1,23 @@
+[
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "password": "Password123",
+    "confirmPassword": "Password123",
+    "expectedMessage": "Registration successful!"
+  },
+  {
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "password": "Pass123",
+    "confirmPassword": "Pass123",
+    "expectedMessage": "Registration successful!"
+  },
+  {
+    "name": "Mismatch User",
+    "email": "mismatch@example.com",
+    "password": "Password123",
+    "confirmPassword": "WrongPass",
+    "expectedMessage": "Passwords do not match"
+  }
+]

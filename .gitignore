@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Test results
+allure-results/
+allure-report/
+reports/
+*.zip
+*.webm
+*.mp4
+*.png
+
+# Environment configs
+.env
+.env.local
+
+# IDE settings
+.vscode/
+.idea/

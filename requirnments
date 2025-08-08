@@ -1,0 +1,83 @@
+> Run 
+npm run test
+
+> Switch env 
+npm run test:smoke:qa
+npm run test:smoke:stage
+npm run test:smoke:prod
+npm run test:regression:stage
+npm run test:smoke+regression:prod
+
+> generate step defination : npx cucumber-js --dry-run
+
+> Install Required Packages
+Install core dependencies: npm install -D playwright @cucumber/cucumber typescript ts-node @types/node
+Install Playwright browsers: npx playwright install
+
+> Install Required Dependencies
+npm init -y
+npm install -D playwright @cucumber/cucumber typescript ts-node @types/node
+npx playwright install
+
+> Reports
+Trace File : npx playwright show-trace reports/traces/<trace_file>.zip
+
+
+
+> Add Allure Reporting : 
+1. npm install -D allure-cucumberjs
+
+> Run Allure report : 
+ npx allure generate allure-results --clean -o reports/allure-report
+ npx allure open reports/allure-report
+
+
+
+
+
+//To jump from a step in your `.feature` file (like `Given`, `When`, `Then`) to its step definition in VS Code, you need the right extensions and setup:
+
+### 1. **Install Cucumber (Gherkin) Extensions**
+- **Cucumber (Gherkin) Full Support**  
+  [VS Code Marketplace Link](https://marketplace.visualstudio.com/items?itemName=alexkrechik.cucumberautocomplete)
+- **Cucumber Step Definitions**  
+  [VS Code Marketplace Link](https://marketplace.visualstudio.com/items?itemName=stevejpurves.cucumber)
+
+These extensions provide:
+- Syntax highlighting for `.feature` files
+- Step definition navigation (Ctrl+Click or F12 on a step)
+
+---
+
+### 2. **Project Setup**
+- Make sure your step definitions are in `.ts` or `.js` files and follow the Cucumber pattern, e.g.:
+  ```typescript
+  import { Given, When, Then } from '@cucumber/cucumber';
+
+  Given('I am on the login page', async function () {
+    // implementation
+  });
+  ```
+
+---
+
+### 3. **How to Use**
+- Open your `.feature` file.
+- Hold `Ctrl` (or `Cmd` on Mac) and click on a step (e.g., `Given I am on the login page`).
+- VS Code should jump to the corresponding step definition.
+
+---
+
+### 4. **If Navigation Doesn't Work**
+- Make sure your step definitions match the step text in the feature file.
+- Sometimes you need to reload VS Code or re-index the project after installing the extension.
+
+---
+
+**Summary:**  
+Install the "Cucumber (Gherkin) Full Support" extension, ensure your step definitions are correctly written, and use Ctrl+Click to navigate from feature steps to their definitions.
+
+
+npm run test
+npx allure generate ./allure-results --clean -o ./reports/allure-report
+npx allure open ./reports/allure-report
