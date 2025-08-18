@@ -48,6 +48,11 @@ Feature: Login Functionality
     When I enter username "invalidUser" and password "Password123"
     Then I should see an error message "Your username is invalid!"
 
+    Scenario: Unsuccessful login with invalid password
+    Given I am on the login page
+    When I enter username "student" and password "<password>"
+    Then I should see an error message "Your password is invalid!"      
+
 
 # @smoke @regression
 # Feature: Login Functionality
