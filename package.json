@@ -15,7 +15,8 @@
     "test:smoke+regression:prod": "cross-env ENV=prod cucumber-js --tags \"@smoke or @regression\"",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
-    "test:smoke:qa:report": "npm run test:smoke:qa && npm run allure:generate && npm run allure:open"
+    "test:smoke:qa:report": "npm run test:smoke:qa && npm run allure:generate && npm run allure:open",
+    "test:tp:tpqa": "cross-env ENV=tpqa cucumber-js --tags \"@tp\""
   },
   "keywords": [],
   "author": "",
