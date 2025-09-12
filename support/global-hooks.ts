@@ -13,6 +13,8 @@ BeforeAll(async function () {
   // Ensure report folders exist in CI
   fs.mkdirSync('reports/videos', { recursive: true });
   fs.mkdirSync('reports/traces', { recursive: true });
+  fs.mkdirSync('allure-results', { recursive: true });
+  fs.mkdirSync('reports/screenshots', { recursive: true });
 
   browser = await chromium.launch({
     headless: isCI ? true : false,
