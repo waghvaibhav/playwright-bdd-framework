@@ -1,5 +1,5 @@
-@om
-Feature: Create a candidate account
+@non-member
+Feature: Create a candidate account for Non Ordinary Member
   As a candidate
   I want to create an account
   So that I can apply for Exams

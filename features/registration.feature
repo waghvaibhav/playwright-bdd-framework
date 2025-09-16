@@ -15,3 +15,7 @@ Feature: User Registration
       | Jane Doe        | jane@example.com       | Pass123      | Pass123         | Registration successful!     |
       | Mismatch User   | mismatch@example.com   | Password123  | WrongPass       | Passwords do not match       |
 
+
+
+
+

@@ -2,7 +2,7 @@ import { Locator, Page } from 'playwright';
 import { config } from '../config/config';
 import { BasePage } from './BasePage';
 import { expect } from '@playwright/test';
-
+import { generateValidEmail } from '../support/validEmail';
 
 export class Create_account_candidate extends BasePage {
   private honorifictitle = '//div//p[contains(text(),"Select")]';
@@ -10,8 +10,7 @@ export class Create_account_candidate extends BasePage {
   private fullnamefield = '//input[@name="candidate_name"]';
   private expectedDate(date: string): Locator { return this.page.locator(`//input[@name='DOB' and @value="${date}"]`); }
   private enteremailfield = '//input[@name="email"]';
-
-
+  private _emailUsed = ''; // for logging/debugging if needed
 
   // Calendar related locators & methods
   readonly dobInput: Locator;
@@ -21,7 +20,6 @@ export class Create_account_candidate extends BasePage {
   readonly prevBtn: Locator;
   readonly nextBtn: Locator;
 
-
   private readonly MONTHS = [
     'january', 'february', 'march', 'april', 'may', 'june',
     'july', 'august', 'september', 'october', 'november', 'december'
@@ -30,7 +28,7 @@ export class Create_account_candidate extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    // Your input
+    // Date of Birth field & button
     this.dobInput = this.page.locator('//label[contains(normalize-space(.),"Date of Birth")]/ancestor::div[contains(@class,"MuiStack-root")][1]    //div[contains(@class,"MuiFormControl-root")][1]//button[@aria-label="Choose date"]');
 
     // Calendar popper & common parts
@@ -41,6 +39,7 @@ export class Create_account_candidate extends BasePage {
     // Arrow buttons
     this.prevBtn = this.popperRoot.getByRole('button', { name: /previous month/i });
     this.nextBtn = this.popperRoot.getByRole('button', { name: /next month/i });
+
   }
   private monthIndex(name: string) {
     return this.MONTHS.indexOf(name.toLowerCase());
@@ -104,7 +103,7 @@ export class Create_account_candidate extends BasePage {
   }
 
 
-  async selectDOBViaCalendar(day: string, monthName: string, year: string, timeout = 30000) {
+  async selectDOBViaCalendar(day: string, monthName: string, year: string, _timeout = 90000) {
     // 1) Open the calendar
     await this.dobInput.click();
     await expect(this.popperRoot).toBeVisible();
@@ -122,7 +121,7 @@ export class Create_account_candidate extends BasePage {
     // Navigate to the desired month in that chosen year.
     await this.goToMonth(targetMonthIdx, parseInt(year, 10));
 
-    // 4) Click the day (non-disabled day button inside day grid)
+    // 4) Click the day button (not disabled)
     const dayBtn = this.popperRoot.locator(
       'button.MuiPickersDay-root:not(.Mui-disabled)',
       { hasText: new RegExp(`^${day}$`) }
@@ -131,24 +130,48 @@ export class Create_account_candidate extends BasePage {
 
   }
 
-  async verifyDOB(date: string, timeout = 30000) {
+  async verifyDOB(date: string, _timeout = 90000) {
 
     const locator = this.expectedDate(date);
     await expect(locator).toBeVisible();
     await expect(locator).toHaveValue(date);
   }
 
-  async verifyemail(email: string) {
+  async enteremail(hint: string) {
+    const domain = hint?.includes('@') ? hint.split('@')[1] : hint;
+    const email = generateValidEmail(domain);
 
-    const emailfield = this.enteremailfield;
-    await expect(this.page.locator(emailfield)).toBeVisible();
-    await this.page.fill(emailfield, email);
+    this._emailUsed = email; // optional for logs
+    const field = this.page.getByLabel(/email/i)
+      .or(this.page.getByPlaceholder(/email/i))
+      .or(this.page.getByRole('textbox', { name: /email/i }))
+      .or(this.page.locator('input[type="email"], input[name*="email" i], input[id*="email" i]'));
+
+    await field.first().click({ force: true });
+    await field.first().fill('');
+    await field.first().fill(email);
+
   }
 
-  async clickverifyemailbutton() {
+  async enterInvalidEmail(email: string) {
+    const enteremailfield = '//input[@name="email"]';
+    await expect(this.page.locator(enteremailfield)).toBeVisible();
+    await this.page.fill(enteremailfield, email);
+  }
+
+
+  async assertEmailErrorMessage(expectedMessage: string): Promise<void> {
+    const locator = this.page.locator(`//div//label[text()='Email ID']//following::p[text()="${expectedMessage}"]`);
+    await this.page.mouse.click(200, 500);
+    await expect(locator).toBeVisible();
+    await expect(locator).toHaveText(expectedMessage);
+  }
+
+  async clickverifyemailbutton(_timeout = 30000) {
     const verifyemailbutton = '//button[contains(text(),"Verify Email")]';
     await expect(this.page.locator(verifyemailbutton)).toBeVisible();
     await this.page.click(verifyemailbutton);
+
   }
 
   async enterOTP(otp: string) {
@@ -169,12 +192,24 @@ export class Create_account_candidate extends BasePage {
     await expect(locator).toHaveText(expectedMessage);
   }
 
+  async expectOtpError(expectedTitle: string = 'Invalid OTP', _timeout = 10000): Promise<void> {
+    // SweetAlert2 uses aria-labelledby to name the dialog from the <h2> title
+    const dialog = this.page.getByRole('dialog', { name: new RegExp(`^${expectedTitle}$`, 'i') });
 
+    // Wait for the container/dialog to appear
+    await expect(this.page.locator('.swal2-container')).toBeVisible();
+    await expect(dialog).toBeVisible();
 
-
-
-
-
-
+    // Title should match
+    const title = dialog.getByRole('heading', { name: new RegExp(`^${expectedTitle}$`, 'i') });
+    await expect(title).toBeVisible();
+  }
 
 }
+
+
+
+
+
+
+

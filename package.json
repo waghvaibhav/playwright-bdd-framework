@@ -16,7 +16,9 @@
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
     "test:smoke:qa:report": "npm run test:smoke:qa && npm run allure:generate && npm run allure:open",
-    "test:tp:tpqa": "cross-env ENV=tpqa cucumber-js --tags \"@tp\""
+    "test:om:ordinarymemberQa": "cross-env ENV=ordinarymemberqa cucumber-js --tags \"@om\"",
+    "test:nom:nonOrdinarymemberQa": "cross-env ENV=nonordinarymemberqa cucumber-js --tags \"@non-member\"",
+    "test:dbf:DBFmemberQa": "cross-env ENV=DBFmemberQa cucumber-js --tags \"@dbf\""
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
   "devDependencies": {
     "@cucumber/cucumber": "^12.1.0",
     "@cucumber/messages": "^28.1.0",
+    "@faker-js/faker": "^10.0.0",
     "@playwright/test": "^1.54.2",
     "@types/node": "^24.2.0",
     "allure-cucumberjs": "^3.3.3",

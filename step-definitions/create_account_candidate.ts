@@ -4,7 +4,6 @@ import { LoginPage } from '../pages/LoginPage';
 import { Create_account_candidate } from '../pages/Create_account_candidate';
 import { CustomWorld } from '../support/custom-world';
 
-
 let browser: Browser;
 let page: Page;
 let loginPage: LoginPage;
@@ -31,7 +30,15 @@ Then('the DOB field should contain {string}', { timeout: 30000 },
   });
 
 When('I enter candidate email {string}', async function (this: CustomWorld, email: string) {
-  await create_account_candidate.verifyemail(email);
+  await create_account_candidate.enteremail(email);
+});
+
+When('I enter candidate invalid email {string}', async function (this: CustomWorld, email: string) {
+  await create_account_candidate.enterInvalidEmail(email);
+});
+
+Then('I should see an email error dialog with message {string}', async function (this: CustomWorld, expectedMessage: string) {
+  await create_account_candidate.assertEmailErrorMessage(expectedMessage);
 });
 
 When('I click on verify email button', async function (this: CustomWorld) {
@@ -50,5 +57,7 @@ Then('I should see the message {string}', async function (this: CustomWorld, exp
   await create_account_candidate.assertSuccessMessage(expectedMessage);
 });
 
-
+Then('I should see an OTP error dialog with message {string}', async function (this: CustomWorld, expectedMessage: string) {
+  await create_account_candidate.expectOtpError(expectedMessage);
+});
 
