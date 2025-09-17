@@ -1,49 +1,49 @@
-# # Node
-# node_modules/
-# npm-debug.log*
-# yarn-debug.log*
-# yarn-error.log*
-# package-lock.json.*
-# .pnpm-store/
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json.*
+.pnpm-store/
 
-# # Builds / compiled
-# dist/
-# out/
-# *.tsbuildinfo
+# Builds / compiled
+dist/
+out/
+*.tsbuildinfo
 
-# # IDE / OS
-# .vscode/
-# .idea/
-# .DS_Store
-# Thumbs.db
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
 
-# # Env / secrets
-# .env
-# .env.*
-# !.env.example
+# Env / secrets
+.env
+.env.*
+!.env.example
 
-# # Test outputs & artifacts
-# reports/
-# reports/**/*
-# allure-results/
-# allure-report/
-# playwright-report/
-# test-results/
-# *.zip
-# *.webm
-# *.mp4
-# *.png
-# *.jpg
-# *.jpeg
+# Test outputs & artifacts
+reports/
+reports/**/*
+allure-results/
+allure-report/
+playwright-report/
+test-results/
+*.zip
+*.webm
+*.mp4
+*.png
+*.jpg
+*.jpeg
 
-# # Playwright videos/traces (if outside reports/)
-# **/videos/
-# **/traces/
+# Playwright videos/traces (if outside reports/)
+**/videos/
+**/traces/
 
-# # Coverage (if you add it later)
-# coverage/
-# lcov.info
+# Coverage (if you add it later)
+coverage/
+lcov.info
 
-# # Misc
-# .tmp/
-# .temp/
+# Misc
+.tmp/
+.temp/

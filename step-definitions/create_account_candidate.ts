@@ -33,6 +33,10 @@ When('I enter candidate email {string}', async function (this: CustomWorld, emai
   await create_account_candidate.enteremail(email);
 });
 
+Then('I verify the {string} button is disabled', async function (this: CustomWorld, buttonName: string) {
+  await create_account_candidate.verifyButtonIsDisabled(buttonName);
+});
+
 When('I enter candidate invalid email {string}', async function (this: CustomWorld, email: string) {
   await create_account_candidate.enterInvalidEmail(email);
 });
@@ -41,8 +45,8 @@ Then('I should see an email error dialog with message {string}', async function 
   await create_account_candidate.assertEmailErrorMessage(expectedMessage);
 });
 
-When('I click on verify email button', async function (this: CustomWorld) {
-  await create_account_candidate.clickverifyemailbutton();
+When ('I click on {string} button', async function (this: CustomWorld, buttonName: string) {
+  await create_account_candidate.click_on_button(buttonName);
 });
 
 When('I enter OTP {string} in email OTP field', async function (this: CustomWorld, otp: string) {

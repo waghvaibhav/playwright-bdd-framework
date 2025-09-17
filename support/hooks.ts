@@ -3,6 +3,7 @@ import { CustomWorld } from './custom-world';
 import fs from 'fs';
 import path from 'path';
 
+
 const resultsDir = path.join(process.cwd(), 'allure-results');
 
 // Make sure results dir exists
@@ -18,10 +19,11 @@ After(async function (this: CustomWorld, scenario: ITestCaseHookParameter) {
   const name = scenario.pickle.name.replace(/\s+/g, '_');
 
   // Screenshot on failure
-  if (scenario.result?.status === Status.FAILED) {
-    const screenshot = await this.page.screenshot();
-    await this.attach(screenshot, 'image/png');
+  if (scenario.result?.status === Status.FAILED && this.page) {
+    const png = await this.page.screenshot({ fullPage: true });
+    await this.attach(png, 'image/png');
   }
+
 
   // Stop trace and attach
   await this.context.tracing.stop({ path: `reports/traces/${name}.zip` });

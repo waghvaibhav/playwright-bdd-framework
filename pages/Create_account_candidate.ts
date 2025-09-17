@@ -153,6 +153,13 @@ export class Create_account_candidate extends BasePage {
 
   }
 
+  async verifyButtonIsDisabled(buttonName: string) {
+    const button = this.page.getByRole('button', { name: new RegExp(`^${buttonName}$`, 'i') })
+      .or(this.page.locator('button:has-text("Verify Email")'));
+    await expect(button).toBeVisible();
+    await expect(button).toBeDisabled();
+  }
+
   async enterInvalidEmail(email: string) {
     const enteremailfield = '//input[@name="email"]';
     await expect(this.page.locator(enteremailfield)).toBeVisible();
@@ -167,17 +174,18 @@ export class Create_account_candidate extends BasePage {
     await expect(locator).toHaveText(expectedMessage);
   }
 
-  async clickverifyemailbutton(_timeout = 30000) {
-    const verifyemailbutton = '//button[contains(text(),"Verify Email")]';
-    await expect(this.page.locator(verifyemailbutton)).toBeVisible();
-    await this.page.click(verifyemailbutton);
-
+  async click_on_button(buttonName: string = 'verify email', _timeout = 30000) {
+    const button = this.page.getByRole('button', { name: new RegExp(`^${buttonName}$`, 'i') })
+      .or(this.page.locator('button:has-text("Verify Email")'));
+    await expect(button).toBeVisible();
+    await button.click();
   }
 
   async enterOTP(otp: string) {
     const otpfield = '//input[@name="emailOtp"]';
     await expect(this.page.locator(otpfield)).toBeVisible();
     await this.page.fill(otpfield, otp);
+    await expect(this.page.locator(otpfield)).toHaveValue(otp);
   }
 
   async clickverifyOTPbutton() {
